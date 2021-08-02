@@ -1,0 +1,6 @@
+
+<div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);">
+   <i class="fa fa-car" [class.highlighted]="vote == 1" (click)="upVote()"></i>
+   <p>Vote : {{vote}}</p> 
+   <p class="totalvote">Total Vote : {{othervote+vote}}</p> 
+</div>
