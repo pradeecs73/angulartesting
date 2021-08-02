@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-vote',
@@ -7,13 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VoteComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router,private route:ActivatedRoute) { }
 
   vote:any=0;
   othervote:any=0;
 
 
   ngOnInit(): void {
+    this.route.params.subscribe((p:any)=>{
+        console.log(p);
+    });
   }
 
   upVote(){
@@ -23,6 +27,10 @@ export class VoteComponent implements OnInit {
 
     this.vote++;
 
+  }
+
+  moveToUser(){
+    this.router.navigate(['/user']);
   }
 
 }

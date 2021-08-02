@@ -1,6 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {By} from '@angular/platform-browser'
 import { VoteComponent } from './vote.component';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import {EMPTY} from 'rxjs';
+
+
+class RouterStub{
+    navigate(params){
+
+    }
+}
+
+class ActivateRouteStub{
+   params:Observable<any>=EMPTY;
+}
 
 
 describe('VoteComponent', () => {
@@ -9,7 +23,11 @@ describe('VoteComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ VoteComponent ]
+      declarations: [ VoteComponent ],
+      providers: [
+        {provide:Router,useClass:RouterStub},
+        {provide:ActivatedRoute,useClass:ActivateRouteStub},
+      ]
     })
     .compileComponents();
   }));
@@ -38,6 +56,14 @@ describe('VoteComponent', () => {
         icon.triggerEventHandler('click',null);
     
      expect(app.vote).toBe(1);   
+  });
+
+  it('should navigate to user component', () => {
+       let router=TestBed.get(Router);
+       let spy=spyOn(router,'navigate');
+
+       app.moveToUser();
+       expect(spy).toHaveBeenCalledWith(['/user']);
   });
 
 });
