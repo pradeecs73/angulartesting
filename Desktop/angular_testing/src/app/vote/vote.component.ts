@@ -16,7 +16,9 @@ export class VoteComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((p:any)=>{
-        console.log(p);
+        if(p['id'] == 0){
+          this.router.navigate(['/user']);
+        }
     });
   }
 

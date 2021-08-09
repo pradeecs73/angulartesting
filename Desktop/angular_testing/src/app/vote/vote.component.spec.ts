@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {By} from '@angular/platform-browser'
 import { VoteComponent } from './vote.component';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable,Subject } from 'rxjs';
 import {EMPTY} from 'rxjs';
 
 
@@ -13,7 +13,17 @@ class RouterStub{
 }
 
 class ActivateRouteStub{
-   params:Observable<any>=EMPTY;
+  // params:Observable<any>=EMPTY;
+   private subject = new Subject();
+
+   push(value){
+     this.subject.next(value);
+   }
+
+   get params(){
+      return this.subject.asObservable();
+   }
+
 }
 
 
@@ -65,5 +75,17 @@ describe('VoteComponent', () => {
        app.moveToUser();
        expect(spy).toHaveBeenCalledWith(['/user']);
   });
+
+  it('should navigate to not found component', () => {
+    let router=TestBed.get(Router);
+    let spy=spyOn(router,'navigate');
+
+    fixture.detectChanges();
+
+    let route:ActivateRouteStub=TestBed.get(ActivatedRoute);
+        route.push({id:0})
+
+    expect(spy).toHaveBeenCalledWith(['/user']);
+});
 
 });
