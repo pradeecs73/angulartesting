@@ -2,12 +2,13 @@ import { Component, OnInit,EventEmitter} from '@angular/core';
 
 import { UserService } from "./user.service";
 import { DataService } from "../shared/data.service";
+import { ServicetestService } from "../shared/servicetest.service";
 
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css'],
-  providers: [UserService, DataService]
+  providers: [UserService, DataService,ServicetestService]
 })
 export class UserComponent implements OnInit {
   user: {name: string};
@@ -17,8 +18,10 @@ export class UserComponent implements OnInit {
   voteChanged=new EventEmitter();
   posts:any=[];
   errormessage:any;
+  serviceTestName:any;
 
-  constructor(private userService: UserService, private dataService: DataService) { }
+  constructor(private userService: UserService, private dataService: DataService,
+    private serviceTestService:ServicetestService) { }
 
   ngOnInit(): void {
     this.user = this.userService.user;
@@ -44,5 +47,9 @@ export class UserComponent implements OnInit {
       this.totalVotes++;
       this.voteChanged.emit(this.totalVotes);
    }
+
+   getServicetestname(){
+    this.serviceTestName=this.serviceTestService.getNameservicetest();
+  }
 
 }

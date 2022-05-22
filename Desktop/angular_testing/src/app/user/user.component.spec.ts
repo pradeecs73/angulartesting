@@ -5,6 +5,7 @@ import { UserService } from "./user.service";
 import { DataService } from "../shared/data.service";
 import { HttpClientModule} from '@angular/common/http';
 import { from ,throwError} from 'rxjs';
+import { ServicetestService } from "../shared/servicetest.service";
 
 describe('UserComponent', () => {
   let app: UserComponent;
@@ -16,7 +17,7 @@ describe('UserComponent', () => {
       imports: [
         HttpClientModule
       ],
-      providers: [UserService,DataService]
+      providers: [UserService,DataService,ServicetestService]
     })
     .compileComponents();
   }));
@@ -89,6 +90,14 @@ describe('UserComponent', () => {
       expect(app.errormessage).toBe("error from test mock");
   
   }));
+
+  it('should fetch data from service test file',() => {
+    let servicTestService = fixture.debugElement.injector.get(ServicetestService);
+    spyOn(servicTestService, 'getNameservicetest')
+      .and.returnValue('prasad');
+      app.getServicetestname();
+      expect(app.serviceTestName).toBe('prasad');
+  });
 
 
 });
